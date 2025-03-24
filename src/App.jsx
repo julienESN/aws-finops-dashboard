@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import FinOpsDashboard from './FinOpsDashboard';
+import FinOpsDashboard from './components/finops/FinOpsDashboard';
 import CostAnomalyDetector from './CostAnomalyDetector';
 import OptimizationRecommendations from './OptimizationRecommendations';
 import TopNavBar from './TopNavBar';
