@@ -1,16 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-// Composant pour la barre de navigation supérieure avec boutons corrigés
-const TopNavBar = () => {
+const TopNavBar = ({onPeriodChange, currentPeriod}) => {
   const [darkMode, setDarkMode] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [notificationCount, setNotificationCount] = useState(3);
 
-  // Références pour les menus déroulants
   const notificationRef = useRef(null);
   const settingsRef = useRef(null);
   const darkModeRef = useRef(null);
+
+  const generateYearOptions = () => {
+    const currentYear = new Date().getFullYear();
+    const years = [];
+    
+    for (let i = 0; i < 6; i++) {
+      years.push(currentYear - i);
+    }
+    
+    return years;
+  };
+
 
   // Gestionnaire pour le mode sombre
   const toggleDarkMode = () => {
@@ -82,6 +92,12 @@ const TopNavBar = () => {
     setNotificationCount(Math.max(0, notificationCount - 1));
     // Ici, vous pourriez implémenter la logique pour marquer une notification spécifique
   };
+
+  const handlePeriodChange = (e) => {
+    if(onPeriodChange) {
+      onPeriodChange(e.target.value)
+    }
+  }
 
   // Notifications simulées
   const notifications = [
@@ -156,12 +172,19 @@ const TopNavBar = () => {
 
           {/* Sélecteur de période au centre */}
           <div className="hidden md:flex items-center">
-            <select className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-md py-2 px-4 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option>Cette année</option>
-              <option>12 derniers mois</option>
-              <option>6 derniers mois</option>
-              <option>30 derniers jours</option>
-              <option>Personnalisé</option>
+            <select 
+              className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-md py-2 px-4 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={currentPeriod}
+              onChange={handlePeriodChange}
+            >
+              <option value="current_year">Cette année</option>
+              {generateYearOptions().map(year => (
+                <option key={year} value={`year_${year}`}>{year}</option>
+              ))}
+              <option value="last_12_months">12 derniers mois</option>
+              <option value="last_6_months">6 derniers mois</option>
+              <option value="last_30_days">30 derniers jours</option>
+              <option value="custom">Personnalisé</option>
             </select>
           </div>
 

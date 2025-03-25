@@ -1,18 +1,8 @@
-// src/components/finops/filters/DashboardFilters.jsx
 import React from 'react';
 import { ICONS } from '../../../utils/finops/constants';
+import InfoTooltip from '../common/InfoTooltip';
+import SelectWithTooltips from '../common/SelectWithTooltips';
 
-/**
- * Composant des filtres du dashboard FinOps
- *
- * @param {object} props - Propriétés du composant
- * @param {object} props.filters - État actuel des filtres
- * @param {function} props.setFilters - Fonction pour mettre à jour les filtres
- * @param {string[]} props.serviceOptions - Liste des services disponibles
- * @param {string[]} props.regionOptions - Liste des régions disponibles
- * @param {string[]} props.teamOptions - Liste des équipes disponibles
- * @param {string[]} props.environmentOptions - Liste des environnements disponibles
- */
 const DashboardFilters = ({
   filters,
   setFilters,
@@ -33,81 +23,46 @@ const DashboardFilters = ({
           </p>
         </div>
 
-        {/* Sélecteur de période */}
-        <div className="mt-4 md:mt-0 flex items-center space-x-2">
-          <button className="flex items-center space-x-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-lg text-sm font-medium hover:bg-blue-100 dark:hover:bg-blue-800/30 transition-colors duration-150">
-            {ICONS.calendar}
-            <span>Période: {filters.timeRange} derniers mois</span>
-            {ICONS.chevronDown}
-          </button>
-        </div>
+       
       </div>
 
       {/* Filtres */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        {/* Service */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Service
-          </label>
-          <select
-            className="block w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300"
-            value={filters.service}
-            onChange={(e) =>
-              setFilters({ ...filters, service: e.target.value })
-            }
-          >
-            <option value="all">Tous les services</option>
-            {serviceOptions.map((srv) => (
-              <option key={srv} value={srv}>
-                {srv}
-              </option>
-            ))}
-          </select>
-        </div>
+        {/* Service avec tooltips */}
+        <SelectWithTooltips
+          label="Service"
+          options={serviceOptions}
+          value={filters.service}
+          onChange={(e) => setFilters({ ...filters, service: e.target.value })}
+          type="service"
+          infoText="Les services AWS sont des composants cloud qui facilitent le développement et le déploiement d'applications."
+        />
 
-        {/* Région */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Région
-          </label>
-          <select
-            className="block w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300"
-            value={filters.region}
-            onChange={(e) => setFilters({ ...filters, region: e.target.value })}
-          >
-            <option value="all">Toutes les régions</option>
-            {regionOptions.map((r) => (
-              <option key={r} value={r}>
-                {r}
-              </option>
-            ))}
-          </select>
-        </div>
+        {/* Région avec tooltips */}
+        <SelectWithTooltips
+          label="Région"
+          options={regionOptions}
+          value={filters.region}
+          onChange={(e) => setFilters({ ...filters, region: e.target.value })}
+          type="region"
+          infoText="Les régions AWS sont des emplacements géographiques où AWS exploite ses centres de données."
+        />
 
-        {/* Équipe */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Équipe
-          </label>
-          <select
-            className="block w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300"
-            value={filters.team}
-            onChange={(e) => setFilters({ ...filters, team: e.target.value })}
-          >
-            <option value="all">Toutes les équipes</option>
-            {teamOptions.map((t) => (
-              <option key={t} value={t}>
-                {t}
-              </option>
-            ))}
-          </select>
-        </div>
+        {/* Équipe avec tooltips */}
+        <SelectWithTooltips
+          label="Équipe"
+          options={teamOptions}
+          value={filters.team}
+          onChange={(e) => setFilters({ ...filters, team: e.target.value })}
+          type="team"
+          infoText="Les équipes qui utilisent les ressources AWS au sein de votre organisation."
+        />
 
         {/* Environnement */}
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             Environnement
+            <InfoTooltip text="Les environnements de déploiement comme Production, Développement, Test, etc." />
           </label>
           <select
             className="block w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300"

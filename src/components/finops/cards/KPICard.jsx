@@ -100,9 +100,14 @@ const KPICard = ({
                   </RadialBar>
                   <Legend
                     iconSize={10}
-                    layout="vertical"
-                    verticalAlign="middle"
-                    wrapperStyle={{ right: 0, top: 0, bottom: 0 }}
+                    layout="horizontal"
+                    verticalAlign="bottom"
+                    wrapperStyle={{
+                      width: '100%',
+                      paddingTop: '10px',
+                      fontSize: '0.75rem',
+                      margin: '0 auto',
+                    }}
                   />
                   <Tooltip
                     content={

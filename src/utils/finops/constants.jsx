@@ -10,6 +10,19 @@ export const COLORS = {
   gray: ['#6b7280', '#9ca3af', '#d1d5db', '#e5e7eb', '#f3f4f6'],
 };
 
+export const SERVICE_DESCRIPTIONS = {
+  EC2: 'Elastic Compute Cloud - Location de serveurs virtuels dans le cloud',
+  S3: "Simple Storage Service - Stockage d'objets sécurisé, évolutif et durable",
+  RDS: 'Relational Database Service - Services de bases de données relationnelles gérées',
+  Lambda: 'Exécution de code sans serveur en réponse à des événements',
+  CloudFront: 'CDN mondial qui accélère la distribution de contenu web',
+  ECS: "Elastic Container Service - Service d'orchestration de conteneurs",
+  DynamoDB: 'Base de données NoSQL entièrement gérée à hautes performances',
+  EBS: 'Elastic Block Store - Stockage persistant pour les instances EC2',
+  SageMaker:
+    'Plateforme pour créer, entraîner et déployer des modèles de machine learning',
+};
+
 export const SERVICE_COLORS = {
   EC2: COLORS.orange[0],
   S3: COLORS.blue[0],
@@ -26,6 +39,37 @@ export const REGION_COLORS = {
   'eu-west-1': COLORS.orange[0],
   'eu-central-1': COLORS.purple[0],
   'ap-southeast-1': COLORS.red[0],
+};
+
+export const REGION_DESCRIPTIONS = {
+  'us-east-1':
+    "Virginie du Nord (Est des États-Unis) - Région principale et la plus ancienne d'AWS",
+  'us-west-1':
+    'Californie (Ouest des États-Unis) - Région pour la côte ouest américaine',
+  'us-west-2':
+    'Oregon (Ouest des États-Unis) - Région à faible latence pour la côte ouest avec de nombreux services',
+  'eu-west-1': "Irlande (Europe de l'Ouest) - Principale région européenne",
+  'eu-central-1':
+    "Francfort (Europe centrale) - Région allemande conforme aux règles de l'UE",
+  'ap-southeast-1':
+    "Singapour (Asie-Pacifique) - Principale région d'Asie du Sud-Est",
+  'sa-east-1':
+    "São Paulo (Amérique du Sud) - Région brésilienne pour l'Amérique latine",
+};
+
+export const TEAM_DESCRIPTIONS = {
+  Operations:
+    "Équipe chargée de la gestion des opérations quotidiennes de l'infrastructure cloud",
+  IT: 'Équipe informatique responsable du support technique et de la maintenance des systèmes',
+  Research:
+    'Équipe de recherche qui explore de nouvelles technologies et innovations',
+  Sales: 'Équipe commerciale responsable des ventes et des relations clients',
+  Marketing:
+    'Équipe responsable des campagnes promotionnelles et de la stratégie de marque',
+  Engineering:
+    "Équipe d'ingénierie qui développe et maintient les applications et services",
+  'Data Science':
+    "Équipe spécialisée dans l'analyse de données et le machine learning",
 };
 
 // Icônes SVG pour les KPIs

@@ -156,7 +156,7 @@ class DataGeneratorService {
   // Génère les données initiales de coûts
   generateCostData() {
     const nowDate = new Date();
-    const months = 12;
+    const months = 60;
     this.data.costs = [];
 
     // Générer 12 mois de données
