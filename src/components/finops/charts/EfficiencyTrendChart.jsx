@@ -12,8 +12,6 @@ import {
 } from 'recharts';
 
 const EfficiencyTrendChart = ({ data }) => {
-  // Ajout de console.log pour déboguer les données reçues
-  console.log('EfficiencyTrendChart reçoit les données:', data);
 
   return (
     <div className="mt-4">

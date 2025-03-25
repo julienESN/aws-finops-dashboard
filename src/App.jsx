@@ -161,8 +161,8 @@ const MainApp = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [darkMode, setDarkMode] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const { data, loading, error, lastUpdated } = useRealTimeData('all');
-  console.log(data);
+  const [selectedPeriod, setSelectedPeriod] = useState('current_year');
+  const { data, loading, error, lastUpdated } = useRealTimeData('all', selectedPeriod);
   // Simulation du chargement initial
 
   // Écouter les changements de mode sombre depuis TopNavBar
@@ -230,6 +230,10 @@ const MainApp = () => {
     },
   ];
 
+  const handlePeriodChange = (newPeriod) => {
+    setSelectedPeriod(newPeriod);
+  };
+  
   // Calcul du total des économies
   const totalSavings = savingsOpportunities.reduce(
     (sum, item) => sum + item.amount,
@@ -242,7 +246,7 @@ const MainApp = () => {
         darkMode ? 'dark' : ''
       } min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200`}
     >
-      <TopNavBar />
+      <TopNavBar onPeriodChange={handlePeriodChange} currentPeriod={selectedPeriod} />
 
       {/* Contenu principal avec navigation latérale */}
       <div className="flex">
@@ -364,11 +368,11 @@ const MainApp = () => {
 
         {/* Contenu principal */}
         <main className="flex-1 py-6 px-4 sm:px-6 lg:px-8 pb-12">
-          {activeTab === 'dashboard' && <FinOpsDashboard data={data} />}
-          {activeTab === 'anomalies' && <CostAnomalyDetector data={data} />}
-          {activeTab === 'optimization' && (
-            <OptimizationRecommendations data={data} />
-          )}
+        {activeTab === 'dashboard' && <FinOpsDashboard data={data} loading={loading} error={error} lastUpdated={lastUpdated} />}
+        {activeTab === 'anomalies' && <CostAnomalyDetector data={data} />}
+        {activeTab === 'optimization' && (
+          <OptimizationRecommendations data={data} />
+        )}
           {(activeTab === 'forecast' ||
             activeTab === 'budget' ||
             activeTab === 'reports') && (
