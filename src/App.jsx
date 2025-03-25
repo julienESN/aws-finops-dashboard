@@ -244,7 +244,7 @@ const MainApp = () => {
     <div
       className={`${
         darkMode ? 'dark' : ''
-      } min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200`}
+      } min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200 w-screen`}
     >
       <TopNavBar onPeriodChange={handlePeriodChange} currentPeriod={selectedPeriod} />
 
@@ -293,7 +293,7 @@ const MainApp = () => {
                 </ul>
               </div>
 
-              <div className="px-4 py-5 border-t border-gray-200 dark:border-gray-700">
+              {/* <div className="px-4 py-5 border-t border-gray-200 dark:border-gray-700">
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3">
                   Comptes AWS
                 </h3>
@@ -325,7 +325,7 @@ const MainApp = () => {
                     </div>
                   ))}
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {/* Widget d'économies potentielles */}
