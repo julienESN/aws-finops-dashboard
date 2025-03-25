@@ -207,6 +207,11 @@ class DataGeneratorService {
           team: this.baseData.teams[
             Math.floor(Math.random() * this.baseData.teams.length)
           ],
+
+        environment:
+         this.baseData.environments[
+          Math.floor(Math.random() * this.baseData.environments.length)
+      ],
         });
       }
     }

@@ -59,27 +59,19 @@ const DashboardFilters = ({
         />
 
         {/* Environnement */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Environnement
-            <InfoTooltip text="Les environnements de déploiement comme Production, Développement, Test, etc." />
-          </label>
-          <select
-            className="block w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+        
+
+            <SelectWithTooltips
+            label="Environnement"
+            options={environmentOptions}
             value={filters.environment}
             onChange={(e) =>
-              setFilters({ ...filters, environment: e.target.value })
-            }
-          >
-            <option value="all">Tous les environnements</option>
-            {environmentOptions.map((env) => (
-              <option key={env} value={env}>
-                {env}
-              </option>
-            ))}
-          </select>
+                         setFilters({ ...filters, environment: e.target.value })
+                       }
+            type="environment"
+            infoText="Les environnements de déploiement comme Production, Développement, Test, etc."
+            />
         </div>
-      </div>
     </div>
   );
 };

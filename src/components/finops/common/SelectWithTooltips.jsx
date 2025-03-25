@@ -3,6 +3,7 @@ import {
   SERVICE_DESCRIPTIONS,
   REGION_DESCRIPTIONS,
   TEAM_DESCRIPTIONS,
+  ENV_DESCRIPTIONS
 } from '../../../utils/finops/constants';
 import InfoTooltip from './InfoTooltip';
 const SelectWithTooltips = ({
@@ -27,6 +28,9 @@ const SelectWithTooltips = ({
       break;
     case 'team':
       descriptions = TEAM_DESCRIPTIONS;
+      break;
+    case 'environment':
+      descriptions = ENV_DESCRIPTIONS;
       break;
     default:
       descriptions = {};

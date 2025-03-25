@@ -1,5 +1,4 @@
-// src/utils/finops/constants.js
-// Constantes utilisées dans le dashboard FinOps
+
 
 export const COLORS = {
   blue: ['#3b82f6', '#60a5fa', '#93c5fd', '#bfdbfe', '#dbeafe'],
@@ -21,6 +20,14 @@ export const SERVICE_DESCRIPTIONS = {
   EBS: 'Elastic Block Store - Stockage persistant pour les instances EC2',
   SageMaker:
     'Plateforme pour créer, entraîner et déployer des modèles de machine learning',
+};
+
+
+export const ENV_DESCRIPTIONS = {
+  Production: 'Environnement de production, SLA élevés, usage client-facing',
+  Development: 'Environnement de développement, usage plus flexible',
+  Staging: 'Environnement de pré-production pour tests d’intégration',
+  Testing: 'Environnement de test, usage éphémère',
 };
 
 export const SERVICE_COLORS = {
