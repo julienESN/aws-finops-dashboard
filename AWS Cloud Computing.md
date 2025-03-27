@@ -9,24 +9,36 @@
 - Serveurs virtuels appelés "instances EC2"
 - Mise en service et arrêt dynamiques
 - Familles d'instances selon les besoins:
-  - Polyvalentes
-  - Optimisées pour le calcul
-  - Optimisées pour la mémoire
-  - Calcul accéléré
-  - Optimisées pour le stockage
+  - **À usage général**: équilibre entre calcul, mémoire et réseau
+  - **Optimisées pour le calcul**: idéales pour les charges de travail de traitement par lots et processeurs hautes performances
+  - **Optimisées pour la mémoire**: adaptées au traitement de grands jeux de données en mémoire (bases de données hautes performances)
+  - **Calcul accéléré**: pour les charges de travail utilisant des accélérateurs matériels
+  - **Optimisées pour le stockage**: pour accès séquentiel élevé à de grands jeux de données locaux
 
 ### Mise à l'échelle des instances EC2
 - **Verticale**: redimensionnement de l'instance
 - **Horizontale**: lancement de nouvelles instances
 - **Auto Scaling**: configuration automatique de la mise à l'échelle horizontale
+  - Ajout/suppression automatique d'instances selon la demande
+  - Différent d'Elastic Load Balancing
 
 ### Elastic Load Balancer
 - Distribution du trafic entrant entre les instances
+- Garantit qu'aucune instance n'a à supporter seule la charge de travail complète
+- Empêche la surexploitation des ressources
 
 ### Modèles de tarification EC2
 - **À la demande**: flexible, sans contrat
 - **Spot**: utilisation de capacité inutilisée à prix réduit
-- **Savings Plans/Instances réservées**: contrat pour des prix réduits avec engagement d'utilisation
+  - Option la plus économique pour les charges de travail pouvant résister aux interruptions
+  - Idéal pour les charges de travail temporaires (inférieures à 1 an)
+- **Instances réservées**: contrat pour des prix réduits avec engagement d'utilisation
+  - Durées de contrat disponibles: 1 an ou 3 ans uniquement (pas de 2, 4 ou 5 ans)
+  - Plus économique pour les charges de travail prévisibles à long terme
+- **Instances dédiées**: instances exécutées sur du matériel dédié à un seul client
+  - Coût plus élevé que les options sur matériel partagé
+  - Utilisées pour des exigences de conformité ou de licence spécifiques
+- **Savings Plans**: engagement de dépense horaire
   - S'applique aussi à AWS Lambda et AWS Fargate
 
 ## Services de messagerie AWS
