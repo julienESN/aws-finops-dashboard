@@ -1,5 +1,11 @@
 # AWS Cloud Computing - Mémo des concepts clés
 
+#Link 
+
+- https://explore.skillbuilder.aws/learn/courses/1650/notions-essentielles-de-laws-cloud-practitioner-francais-aws-cloud-practitioner-essentials-french/lessons/97055/notions-essentielles-de-laws-cloud-practitioner-francais-aws-cloud-practitioner-essentials-french
+
+- https://aws.amazon.com/fr/certification/certified-cloud-practitioner/#exam-prep
+
 ## Définition du Cloud Computing
 - Mise à disposition de ressources informatiques à la demande via Internet
 - Paiement à l'utilisation (pas de paiement à l'avance)
