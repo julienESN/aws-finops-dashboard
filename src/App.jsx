@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import FinOpsDashboard from './components/finops/FinOpsDashboard';
-import CostAnomalyDetector from './CostAnomalyDetector';
+import CostAnomalyDetector from './components/anomaly/CostAnomalyDetector';
 import OptimizationRecommendations from './OptimizationRecommendations';
 import TopNavBar from './TopNavBar';
-import useRealTimeData from './useRealTimeData';
+import usePersistentData from './usePersistentData';
 // Icônes SVG pour une meilleure qualité visuelle
 const DashboardIcon = () => (
   <svg
@@ -160,9 +160,12 @@ const UserIcon = () => (
 const MainApp = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [darkMode, setDarkMode] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen] = useState(true);
   const [selectedPeriod, setSelectedPeriod] = useState('current_year');
-  const { data, loading, error, lastUpdated } = useRealTimeData('all', selectedPeriod);
+  const { data, loading, error, lastUpdated } = usePersistentData(
+    'all',
+    selectedPeriod
+  );
   // Simulation du chargement initial
 
   // Écouter les changements de mode sombre depuis TopNavBar
@@ -204,14 +207,6 @@ const MainApp = () => {
     { id: 'reports', label: 'Rapports', icon: <ReportIcon /> },
   ];
 
-  // Système de comptes AWS
-  const accounts = [
-    { id: 'prod', name: 'Production', color: 'bg-blue-500' },
-    { id: 'dev', name: 'Développement', color: 'bg-green-500' },
-    { id: 'test', name: 'Test', color: 'bg-amber-500' },
-    { id: 'staging', name: 'Staging', color: 'bg-purple-500' },
-  ];
-
   // Liste des économies potentielles
   const savingsOpportunities = [
     { id: 1, amount: 5840, type: 'Instances EC2 inactives', category: 'EC2' },
@@ -233,7 +228,7 @@ const MainApp = () => {
   const handlePeriodChange = (newPeriod) => {
     setSelectedPeriod(newPeriod);
   };
-  
+
   // Calcul du total des économies
   const totalSavings = savingsOpportunities.reduce(
     (sum, item) => sum + item.amount,
@@ -246,7 +241,10 @@ const MainApp = () => {
         darkMode ? 'dark' : ''
       } min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200 w-screen`}
     >
-      <TopNavBar onPeriodChange={handlePeriodChange} currentPeriod={selectedPeriod} />
+      <TopNavBar
+        onPeriodChange={handlePeriodChange}
+        currentPeriod={selectedPeriod}
+      />
 
       {/* Contenu principal avec navigation latérale */}
       <div className="flex">
@@ -368,11 +366,18 @@ const MainApp = () => {
 
         {/* Contenu principal */}
         <main className="flex-1 py-6 px-4 sm:px-6 lg:px-8 pb-12">
-        {activeTab === 'dashboard' && <FinOpsDashboard data={data} loading={loading} error={error} lastUpdated={lastUpdated} />}
-        {activeTab === 'anomalies' && <CostAnomalyDetector data={data} />}
-        {activeTab === 'optimization' && (
-          <OptimizationRecommendations data={data} />
-        )}
+          {activeTab === 'dashboard' && (
+            <FinOpsDashboard
+              data={data}
+              loading={loading}
+              error={error}
+              lastUpdated={lastUpdated}
+            />
+          )}
+          {activeTab === 'anomalies' && <CostAnomalyDetector data={data} />}
+          {activeTab === 'optimization' && (
+            <OptimizationRecommendations data={data} />
+          )}
           {(activeTab === 'forecast' ||
             activeTab === 'budget' ||
             activeTab === 'reports') && (
