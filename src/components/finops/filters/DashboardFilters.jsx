@@ -16,14 +16,12 @@ const DashboardFilters = ({
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-            AWS FinOps Dashboard (Temps Réel)
+            FinOps Dashboard
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mt-1">
             Analyse et optimisation des coûts AWS
           </p>
         </div>
-
-       
       </div>
 
       {/* Filtres */}
@@ -59,19 +57,18 @@ const DashboardFilters = ({
         />
 
         {/* Environnement */}
-        
 
-            <SelectWithTooltips
-            label="Environnement"
-            options={environmentOptions}
-            value={filters.environment}
-            onChange={(e) =>
-                         setFilters({ ...filters, environment: e.target.value })
-                       }
-            type="environment"
-            infoText="Les environnements de déploiement comme Production, Développement, Test, etc."
-            />
-        </div>
+        <SelectWithTooltips
+          label="Environnement"
+          options={environmentOptions}
+          value={filters.environment}
+          onChange={(e) =>
+            setFilters({ ...filters, environment: e.target.value })
+          }
+          type="environment"
+          infoText="Les environnements de déploiement comme Production, Développement, Test, etc."
+        />
+      </div>
     </div>
   );
 };

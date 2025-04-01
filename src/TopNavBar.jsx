@@ -1,26 +1,41 @@
 import React, { useState, useEffect, useRef } from 'react';
-
-const TopNavBar = ({onPeriodChange, currentPeriod}) => {
+import usePersistentData from './usePersistentData';
+const TopNavBar = ({ onPeriodChange, currentPeriod }) => {
   const [darkMode, setDarkMode] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [notificationCount, setNotificationCount] = useState(3);
-
+  const { resetData, saveCurrentData } = usePersistentData('all');
   const notificationRef = useRef(null);
   const settingsRef = useRef(null);
   const darkModeRef = useRef(null);
 
+  const handleResetData = (e) => {
+    e.preventDefault();
+    if (
+      window.confirm('Êtes-vous sûr de vouloir réinitialiser les données ?')
+    ) {
+      resetData();
+    }
+  };
+
+  const handleSaveData = (e) => {
+    e.preventDefault();
+    if (window.confirm('Êtes-vous sûr de vouloir sauvegarder les données ?')) {
+      saveCurrentData();
+    }
+  };
+
   const generateYearOptions = () => {
     const currentYear = new Date().getFullYear();
     const years = [];
-    
+
     for (let i = 0; i < 6; i++) {
       years.push(currentYear - i);
     }
-    
+
     return years;
   };
-
 
   // Gestionnaire pour le mode sombre
   const toggleDarkMode = () => {
@@ -94,10 +109,10 @@ const TopNavBar = ({onPeriodChange, currentPeriod}) => {
   };
 
   const handlePeriodChange = (e) => {
-    if(onPeriodChange) {
-      onPeriodChange(e.target.value)
+    if (onPeriodChange) {
+      onPeriodChange(e.target.value);
     }
-  }
+  };
 
   // Notifications simulées
   const notifications = [
@@ -125,6 +140,16 @@ const TopNavBar = ({onPeriodChange, currentPeriod}) => {
   const settingsOptions = [
     { id: 'profile', label: 'Mon profil' },
     { id: 'preferences', label: 'Préférences' },
+    {
+      id: 'save_data',
+      label: 'Sauvegarder les données',
+      onClick: handleSaveData,
+    },
+    {
+      id: 'reset_data',
+      label: 'Réinitialiser les données',
+      onClick: handleResetData,
+    },
     { id: 'accounts', label: 'Gestion des comptes' },
     { id: 'alerts', label: 'Configuration des alertes' },
     { id: 'logout', label: 'Déconnexion' },
@@ -172,14 +197,16 @@ const TopNavBar = ({onPeriodChange, currentPeriod}) => {
 
           {/* Sélecteur de période au centre */}
           <div className="hidden md:flex items-center">
-            <select 
+            <select
               className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-md py-2 px-4 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={currentPeriod}
               onChange={handlePeriodChange}
             >
               <option value="current_year">Cette année</option>
-              {generateYearOptions().map(year => (
-                <option key={year} value={`year_${year}`}>{year}</option>
+              {generateYearOptions().map((year) => (
+                <option key={year} value={`year_${year}`}>
+                  {year}
+                </option>
               ))}
               <option value="last_12_months">12 derniers mois</option>
               <option value="last_6_months">6 derniers mois</option>
@@ -359,6 +386,9 @@ const TopNavBar = ({onPeriodChange, currentPeriod}) => {
                           e.preventDefault();
                           e.stopPropagation();
                           setSettingsOpen(false);
+                          if (option.onClick) {
+                            option.onClick(e);
+                          }
                         }}
                       >
                         {option.label}
