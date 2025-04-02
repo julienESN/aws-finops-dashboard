@@ -13,7 +13,7 @@ import { LoadingView, ErrorView, NoDataView } from './views/StatusViews';
 import MonthlyTrendChart from './charts/MonthlyTrendChart';
 import EfficiencyTrendChart from './charts/EfficiencyTrendChart';
 import DataStatusBanner from '../common/DataStatusBanner'; // Importer le composant bannière
-
+import AdvancedRegionWordCloud from './charts/AdvancedRegionWordCloud';
 // Utilitaires
 import {
   formatCurrency,
@@ -344,6 +344,13 @@ const FinOpsDashboard = ({ data, loading, error, lastUpdated, isRefreshing }) =>
           onDetailsClick={() => console.log('Voir détails clicked')}
         />
 
+<AdvancedRegionWordCloud
+      data={filteredData}
+      title='Most Popular Region by Spend Previous Month'
+      filters={filters}
+      setFilters={setFilters}
+      />
+
         {/* Répartition par service */}
         <ServiceDistributionChart
           data={displayedServiceData}
@@ -358,6 +365,8 @@ const FinOpsDashboard = ({ data, loading, error, lastUpdated, isRefreshing }) =>
           colors={COLORS}
           regionColors={REGION_COLORS}
         />
+
+     
       </div>
 
       <TeamCostTable
@@ -369,6 +378,8 @@ const FinOpsDashboard = ({ data, loading, error, lastUpdated, isRefreshing }) =>
         SERVICE_COLORS={SERVICE_COLORS}
         COLORS={COLORS}
       />
+
+     
 
       {/* Pied de page */}
       <footer className="text-center text-gray-500 dark:text-gray-400 text-sm mt-8 mb-4">
