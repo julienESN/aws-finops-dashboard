@@ -12,6 +12,8 @@ import RegionalDistributionChart from './charts/RegionalDistributionChart';
 import { LoadingView, ErrorView, NoDataView } from './views/StatusViews';
 import MonthlyTrendChart from './charts/MonthlyTrendChart';
 import EfficiencyTrendChart from './charts/EfficiencyTrendChart';
+import DataStatusBanner from '../common/DataStatusBanner'; // Importer le composant bannière
+
 // Utilitaires
 import {
   formatCurrency,
@@ -27,7 +29,7 @@ import {
 /**
  * Dashboard principal FinOps
  */
-const FinOpsDashboard = ({ data, loading, error, lastUpdated }) => {
+const FinOpsDashboard = ({ data, loading, error, lastUpdated, isRefreshing }) => {
   // États locaux
   const [filters, setFilters] = useState({
     timeRange: '12',
@@ -262,15 +264,12 @@ const FinOpsDashboard = ({ data, loading, error, lastUpdated }) => {
     return <NoDataView />;
   }
 
-  // console.log(
-  //   "Données d'efficacité pour le graphique:",
-  //   getEfficiencyTrendData
-  // );
-  // console.log("Score d'efficacité calculé:", avgEfficiency);
-
   // Rendu principal du dashboard
   return (
     <div className="space-y-6">
+      {/* Bannière de statut des données */}
+      <DataStatusBanner lastUpdated={lastUpdated} isRefreshing={isRefreshing} />
+      
       {/* En-tête du dashboard avec filtres */}
       <DashboardFilters
         filters={filters}
@@ -360,8 +359,6 @@ const FinOpsDashboard = ({ data, loading, error, lastUpdated }) => {
           regionColors={REGION_COLORS}
         />
       </div>
-
-      {/* Note: Ajouter les autres composants de graphiques ici */}
 
       <TeamCostTable
         data={costByTeamData} // le tableau d'objets {name, value}

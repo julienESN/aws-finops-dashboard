@@ -3,7 +3,10 @@ import FinOpsDashboard from './components/finops/FinOpsDashboard';
 import CostAnomalyDetector from './components/anomaly/CostAnomalyDetector';
 import OptimizationRecommendations from './OptimizationRecommendations';
 import TopNavBar from './TopNavBar';
-import usePersistentData from './usePersistentData';
+import useEnhancedPersistentData from './useEnhancedPersistentData';
+import { DataRefreshNotification, RefreshButton } from './components/common';
+
+
 // Icônes SVG pour une meilleure qualité visuelle
 const DashboardIcon = () => (
   <svg
@@ -109,64 +112,21 @@ const ReportIcon = () => (
   </svg>
 );
 
-const NotificationIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="w-5 h-5"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-    <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-  </svg>
-);
-
-const SettingsIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="w-5 h-5"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <circle cx="12" cy="12" r="3" />
-    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-  </svg>
-);
-
-const UserIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="w-5 h-5"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-    <circle cx="12" cy="7" r="4" />
-  </svg>
-);
-
 const MainApp = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [darkMode, setDarkMode] = useState(false);
   const [sidebarOpen] = useState(true);
   const [selectedPeriod, setSelectedPeriod] = useState('current_year');
-  const { data, loading, error, lastUpdated } = usePersistentData(
-    'all',
-    selectedPeriod
-  );
-  // Simulation du chargement initial
+  
+  // Utiliser le hook amélioré qui inclut isRefreshing et refreshData
+  const { 
+    data, 
+    loading, 
+    error, 
+    lastUpdated,
+    isRefreshing,
+    refreshData
+  } = useEnhancedPersistentData('all', selectedPeriod);
 
   // Écouter les changements de mode sombre depuis TopNavBar
   useEffect(() => {
@@ -244,6 +204,13 @@ const MainApp = () => {
       <TopNavBar
         onPeriodChange={handlePeriodChange}
         currentPeriod={selectedPeriod}
+        refreshButtonComponent={
+          <RefreshButton 
+            onClick={refreshData}
+            isRefreshing={isRefreshing}
+            lastUpdated={lastUpdated}
+          />
+        }
       />
 
       {/* Contenu principal avec navigation latérale */}
@@ -290,40 +257,6 @@ const MainApp = () => {
                   ))}
                 </ul>
               </div>
-
-              {/* <div className="px-4 py-5 border-t border-gray-200 dark:border-gray-700">
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3">
-                  Comptes AWS
-                </h3>
-                <div className="space-y-2.5">
-                  {accounts.map((account) => (
-                    <div key={account.id} className="flex items-center">
-                      <div className="relative flex items-start">
-                        <div className="flex items-center h-5">
-                          <input
-                            id={`account-${account.id}`}
-                            name={`account-${account.id}`}
-                            type="checkbox"
-                            defaultChecked
-                            className="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 dark:text-blue-500 focus:ring-blue-500 dark:focus:ring-blue-400 dark:bg-gray-700"
-                          />
-                        </div>
-                        <div className="ml-3 text-sm">
-                          <label
-                            htmlFor={`account-${account.id}`}
-                            className="font-medium text-gray-700 dark:text-gray-300 flex items-center"
-                          >
-                            <span
-                              className={`w-2 h-2 rounded-full ${account.color} mr-2`}
-                            ></span>
-                            {account.name}
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div> */}
             </div>
 
             {/* Widget d'économies potentielles */}
@@ -372,6 +305,7 @@ const MainApp = () => {
               loading={loading}
               error={error}
               lastUpdated={lastUpdated}
+              isRefreshing={isRefreshing}
             />
           )}
           {activeTab === 'anomalies' && <CostAnomalyDetector data={data} />}
@@ -442,6 +376,12 @@ const MainApp = () => {
           </div>
         </div>
       </footer>
+
+      {/* Notification de rafraîchissement des données */}
+      <DataRefreshNotification 
+        lastUpdated={lastUpdated} 
+        isVisible={isRefreshing} 
+      />
     </div>
   );
 };

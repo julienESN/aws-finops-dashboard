@@ -400,6 +400,19 @@ class PersistentDataGeneratorService {
     }
   }
 
+  generateNewData() {
+    // Mettre à jour les différentes catégories de données
+    this.updateCostData();
+    this.updateAnomaliesData();
+    this.updateRecommendationsData();
+    this.calculateTotals();
+  
+    // Notifier tous les subscribers
+    this.notifySubscribers('all');
+    
+    return true;
+  }
+
   /**
    * Fournit une région cohérente pour un service donné
    * (chaque service a tendance à être plus utilisé dans certaines régions)

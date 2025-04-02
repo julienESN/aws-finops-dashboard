@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import usePersistentData from './usePersistentData';
-const TopNavBar = ({ onPeriodChange, currentPeriod }) => {
+import useEnhancedPersistentData from './useEnhancedPersistentData';
+
+const TopNavBar = ({ onPeriodChange, currentPeriod, refreshButtonComponent }) => {
   const [darkMode, setDarkMode] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [notificationCount, setNotificationCount] = useState(3);
-  const { resetData, saveCurrentData } = usePersistentData('all');
+  const { resetData, saveCurrentData } = useEnhancedPersistentData('all');
   const notificationRef = useRef(null);
   const settingsRef = useRef(null);
   const darkModeRef = useRef(null);
@@ -217,6 +218,9 @@ const TopNavBar = ({ onPeriodChange, currentPeriod }) => {
 
           {/* Boutons à droite */}
           <div className="flex items-center space-x-2">
+            {/* Bouton de rafraîchissement */}
+            {refreshButtonComponent}
+            
             {/* Bouton mode sombre */}
             <button
               ref={darkModeRef}
